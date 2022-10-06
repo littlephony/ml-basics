@@ -1,4 +1,5 @@
 import numpy as np
+
 class LinearModel():
     def __init__(self):
         self.w = np.zeros(1)

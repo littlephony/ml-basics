@@ -13,4 +13,3 @@ X_predict = np.random.randint(low=-1028, high=1027, size=sample_size)
 Y_predict = regr.predict(X_predict)
 
 print(Y_predict)
-
