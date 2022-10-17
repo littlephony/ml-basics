@@ -1,3 +1,11 @@
 # Hello, world!
 
-ml-basics is repo of basic machine learning algorithms such as linear and logistic regression
+ml-basics contains my own implementations of some classic machine learning algorithms:
+
++ linear regression
++ polynomial regression
++ logistic regression
++ softmax classification
++ decision trees (???)
++ K-means clustering
++ anomaly detection
