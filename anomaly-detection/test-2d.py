@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import detector as dect
 
 def split_dataset(X):
     """
@@ -17,25 +18,46 @@ def split_dataset(X):
     return (X_train, X_cv, X_test)
 
 
-sample_size, mean, std = 10000, 0., 10.
+def get_gaussian_probability(x, mu, var):
+    '''
+    Compute Gaussian probability of an event x
+    given mean mu and standard deviation var
+    
+    '''
+
+    return np.exp(-(x - mu) ** 2 / (2 * var ** 2)) / (np.sqrt(2 * np.pi) * var)
+
+sample_size, mean, std = 10000, 15, 3.
 
 np.random.seed(0)
 
-X_data = np.random.normal(loc=mean, scale=std, size=(sample_size, 2))
-X_train, X_cv, X_test = help.split_dataset(X_data)
+# Generate the training set (60% of sample_size)
+X_train = np.random.normal(loc=mean, scale=std, size=(int(sample_size * 0.6), 2))
 
-print(f"First 5 elements of the training set: \n {X_train[:5]}")
-print(f"First 5 elements of the cross validation set: \n {X_train[:5]}")
-print(f"First 5 elements of the test set: \n {X_train[:5]}")
+# Setup pyplot
+fig, axes = plt.subplots(nrows=1, ncols=2)
+axes[0].axis([0, 30, 0, 30])
 
-fig, axes = plt.subplots(nrows=2, ncols=2)
-left, bottom, width, height = 0.1, 0.1, 0.8, 0.8
-#   ax = fig.add_axes((left, bottom, width, height))
+# Plot the training set
+axes[0].scatter(x=X_train[:, 0], y=X_train[:, 1], c='b')
+axes[0].set_xlabel('x1')
+axes[0].set_ylabel('x2')
+axes[0].set_title('Training set scatter plot')
 
-axes[0][0].scatter(x=X_train[:, 0], y=X_train[:, 1], c='b')
-axes[0][0].set_xlabel('x1')
-axes[0][0].set_ylabel('x2')
-axes[0][0].set_title('Training set scatter plot')
+# Fit Gaussian distribution to the training set
+detector = dect.AnomalyDetector(X_train)
+mu, var = detector.fit_gaussian()
+
+# Plot the contour plot of the fitted distribution
+x, y = np.linspace(0, 30, 100), np.linspace(0, 30, 100)
+z = np.multiply.outer(get_gaussian_probability(x, mu[0], var[0]), get_gaussian_probability(y, mu[1], var[1]))
+
+levels = [0.2, 0.4, 0.6, 0.8, 1.0]
+axes[1].contour(x, y, z, colors='k')
+axes[0].contour(x, y, z, colors='k')
+
+axes[1].set_xlabel("x1")
+axes[1].set_ylabel("x2")
+axes[1].set_title("Gaussian distribution contour plot")
+
 plt.show()
-
-
