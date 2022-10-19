@@ -1,7 +1,5 @@
 # Anomaly detection algorithm
 
-This file contains the description of the anomaly detection algorithm.
-
 The basic outline of the algorithm:
 
 1. Fit Gaussian (normal) distribution to an unlabled training set
