@@ -39,7 +39,7 @@ fig, axes = plt.subplots(nrows=1, ncols=2)
 axes[0].axis([0, 30, 0, 30])
 
 # Plot the training set
-axes[0].scatter(x=X_train[:, 0], y=X_train[:, 1], c='b')
+axes[0].scatter(x=X_train[:, 0], y=X_train[:, 1], c='b', label="x")
 axes[0].set_xlabel('x1')
 axes[0].set_ylabel('x2')
 axes[0].set_title('Training set scatter plot')
@@ -53,9 +53,8 @@ x, y = np.linspace(0, 30, 100), np.linspace(0, 30, 100)
 z = np.multiply.outer(get_gaussian_probability(x, mu[0], var[0]), get_gaussian_probability(y, mu[1], var[1]))
 
 levels = [0.2, 0.4, 0.6, 0.8, 1.0]
-axes[1].contour(x, y, z, colors='k')
+axes[1].contourf(x, y, z, levels=20, cmap='RdGy_r')
 axes[0].contour(x, y, z, colors='k')
-
 axes[1].set_xlabel("x1")
 axes[1].set_ylabel("x2")
 axes[1].set_title("Gaussian distribution contour plot")
